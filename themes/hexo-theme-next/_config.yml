@@ -48,10 +48,7 @@ menu_icons:
   tags: tags
   archives: archive
   commonweal: heartbeat
-  
-  
-plugins:
-- hexo-generator-cname
+
 
 
 
@@ -100,7 +97,8 @@ social_icons:
 
 # Social links
 # social:
-  #GitHub:
+  GitHub: https://github.com/CoreRax
+  weibo: http://weibo.com/3084628772/profile
   #Others:
 
 
@@ -207,7 +205,6 @@ facebook_sdk:
   fb_admin:     #<user_id>
   like_button:  #true
   webmaster:    #true
-
 
 
 
