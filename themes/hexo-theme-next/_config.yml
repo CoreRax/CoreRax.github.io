@@ -48,7 +48,10 @@ menu_icons:
   tags: tags
   archives: archive
   commonweal: heartbeat
-
+  
+  
+plugins:
+- hexo-generator-cname
 
 
 

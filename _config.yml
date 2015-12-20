@@ -65,6 +65,9 @@ pagination_dir: page
 ## Themes: http://hexo.io/themes/
 theme: hexo-theme-next
 
+plugins:
+- hexo-generator-cname
+
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
