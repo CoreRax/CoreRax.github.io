@@ -1,7 +1,7 @@
 title: AngularJs单页面路由
 ---
 
-##Modules
+## Modules
 对于大型应用，建议分为多个模块：
 
 - 服务模块
@@ -24,7 +24,7 @@ title: AngularJs单页面路由
     // 运行块中你只能注入Provider实例（注意：不是Provider类）
   });`
 
-##路由机制
+## 路由机制
 
 首先了解单页面应用，就是singlepage app。为了实现无刷新的试图切换，我们会使用ajax请求从后台获取数据，然后套上HTML模板，渲染在页面上，但是ajax的一个致命缺点就是到时浏览器后退按钮失效。尽管我页面上防止了一个大大的返回按钮，让用户点击来导航，但是总是无法避免用户习惯点击后退。解决此问题的一个方法是使用hash，监听hashchange事件来进行视图切换。另一个方法是用HTML5的history API，通过oushState（）记录操作历史，建通popstate时间来进行视图切换。也有人把这个叫做pjax技术。
 ![](http://i.imgur.com/V9f1y8u.png)
@@ -39,8 +39,8 @@ ng的路由机制是靠ngRoute提供的，通过hash和history两种方式实现
 指令ngView用来在主视图中指定加载子视图的区域  
 以上的内容加上$location服务，我们就可以实现一个单页面应用了。
 
-###使用
-#####1.引入文件和依赖
+### 使用
+##### 1.引入文件和依赖
 ngRoute模块包含在一个单独的文件中，所以需要在页面上引入这个文件，
 `<script src="http://code.angularjs.org/1.2.5/angular.min.js"></script>`
 `<script src="http://code.angularjs.org/1.2.5/angular-route.min.js"></script>`
@@ -49,7 +49,7 @@ ngRoute模块包含在一个单独的文件中，所以需要在页面上引入�
 `var app = angular.module('MyApp', ['ngRoute'])`
 
 完成了这些，我们就可以在模板或者是controller中使用上面的服务和指令了。
-#####2.定义路由表
+##### 2.定义路由表
 $routeProvider提供了定义路由表的服务，它有两个核心方法，when(path,route)和otherwise(params)。  
 　　when(path, route)方法接收两个参数，path是一个String类型，表示该条路由规则所匹配的路径，它将与地址栏的内容($location.path)的值进行匹配。如果需要匹配参数，可以在path中使用冒号加名称的方式。如：
 path为`/show/:name`，如果地址栏中是：`/show/tom`,那么参数name所对应的值tom便会被保存在$routeParams中，像这样：{name:tom}。我们也可以使用*进行模糊匹配，如：`/show*/:name`，将匹配
@@ -77,7 +77,7 @@ redirectTo //重定向的地址
 	};
 
 otherwise(params)方法对应路径匹配不到时的情况，这时候我们可以配置一个redirectTo参数，让它重定向到404页面或者是首页。
-#####3.在主视图模板中指定加载子视图的位置
+##### 3.在主视图模板中指定加载子视图的位置
 单页面应用是局部刷新的，ngView用在哪里哪里就是刷新：  
 `<div ng-view></div>`  
 
