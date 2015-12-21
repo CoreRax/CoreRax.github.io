@@ -1,4 +1,7 @@
-###Class StringBuffer
+title: Java-StringBuffer
+---
+
+### Class StringBuffer
 继承于java.lang.Object  
 已实现的接口：Serializable,Appendable,CharSequence  
 是一个线程安全，可变的字符数组。StringBuffer就像一个String，但是可以被修改。  

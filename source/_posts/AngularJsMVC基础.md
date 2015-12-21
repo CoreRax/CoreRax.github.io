@@ -1,3 +1,6 @@
+title: AngularMVC基础
+---
+
 ###Controller使用过程中的注意点  
 - 不要试图复用Controller，一个控制器一般只负责一小块视图  
 - 不要再Controller中操作DOM，对与DOM的操作应该封装给指令
