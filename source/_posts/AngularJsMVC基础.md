@@ -1,21 +1,21 @@
 title: AngularMVC基础
 ---
 
-###Controller使用过程中的注意点  
+### Controller使用过程中的注意点  
 - 不要试图复用Controller，一个控制器一般只负责一小块视图  
 - 不要再Controller中操作DOM，对与DOM的操作应该封装给指令
 - 不要再Controller中做数据格式化，有很好用的表单控件
 - 不要再controller中做数据过滤，angular中有$filter服务
 - 一般来说Controller中为了减少耦合，Controller是不会相互调用的，控制器之间的交互会通过事件进行
 
-###Model  
+### Model  
 ng-model生成数据模型，使用ng-model  
 
-###View
+### View
 
 **AngularJs的MVC是借助于$scope实现的**  
 
-###$scope  
+### $scope  
 - $scope是一个POJO
 - $scope提供了一些工具和方法$watch/$apply(用来实时监测对象的变化)
 - $scope是一个表达式执行的环境（作用域）
