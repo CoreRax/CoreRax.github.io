@@ -1,4 +1,4 @@
-title: AngularMVC基础
+title: 快速排序
 ---
 
 ### 快速排序  
