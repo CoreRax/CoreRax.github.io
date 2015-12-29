@@ -1,6 +1,5 @@
 title: Java-StringBuffer
 ---
-
 ### Class StringBuffer
 继承于java.lang.Object  
 已实现的接口：Serializable,Appendable,CharSequence  
