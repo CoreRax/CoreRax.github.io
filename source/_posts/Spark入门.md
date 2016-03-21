@@ -28,6 +28,34 @@ Spark可以在任何Hadoop支持的存储源里创建分布式数据集，这些
 
 
 **RDD操作**  
-RDD支持两种类型的操作:transformations（变换）它从已经存在的RDD创建一个新的数据集；action（活动/行动）它在数据集上做好运算之后返回一个值给驱动程序。比如，map是一个transformation它通过一个函数传递每个数据集元素，并且返回一个新的RDD代表结果。另一方面，reduce是一个action它使用某种方法聚集所有的RDD的元素并且返回一个最后的结果给驱动程序（虽然也有一个并行的ruduceByKey它返回分布式数据集）。  
+RDD支持两种类型的操作:transformations（变换）它从已经存在的RDD创建一个新的数据集；action（活动/行动）它在数据集上做好运算之后返回一个值给驱动程序。比如，map是一个transformation，它通过一个函数传递每个数据集元素，并且返回一个新的RDD代表结果。另一方面，reduce是一个action它使用某种方法聚集所有的RDD的元素并且返回一个最后的结果给驱动程序（虽然也有一个并行的ruduceByKey它返回分布式数据集）。  
 Spark中所有的transformations是懒惰的/消极的,他们不会立即计算他们的结果。相反他们仅仅记录transformations应用到一些基本的数据集。transformations仅仅在action请求一个结果返回到驱动程序的时候才会计算。这个设计使得Spark运行更加高效，比如我们意识到一个被map创建的数据集将会被用于reduce并且仅仅返回reduce的结果给驱动程序。而不是一个更大的映射数据数据集。//不太明白   
-默认的，每一个变换过后的RDD在每一次你运行action的时候可能被重新计算。然而你可能也存留着一个RDD在内存中通过使用persist或者cache方法，在这种情况下Spark将会保留这些元素在节点中以便下一次你查询的时候更加快速的连接。这也支持在硬盘中的持久化的RDD，或者在多个节点中重复的。
+默认的，每一个变换过后的RDD在每一次你运行action的时候可能被重新计算。然而你可能也存留着一个RDD在内存中通过使用persist或者cache方法，在这种情况下Spark将会保留这些元素在节点中以便下一次你查询的时候更加快速的连接。这也支持在硬盘中的持久化的RDD，或者在多个节点中重复的。  
+
+**基础**  
+为了举例说明RDD的基本知识，考虑下列简单的程序：  
+    
+        JavaRDD<String> lines = sc.textFile("data.txt");
+        JavaRdd<String> lineLengths =  lines.map(s->s.length());
+        int totalLength = lineLengths.reduce((a,b) -> a+b);
+第一行从一个外部文件中定义了一个基本的RDD(弹性分布式数据集)。这个数据集现在还没有加载到内存，或者开始处理：lines仅仅是一个指向文件的指针。第二行定义了lineLengths作为一个map transformation的结果。同样的，lineLengths并没有被立即运算，因为它是懒惰性质的。最后运行reduce，它是一个action。这时候Spark将计算任务打散成task来在不同的机器上运行。每个机器运行它那一部分map和本地reduction，返回自己的结果到驱动程序。  
+如果之后还需要使用lineLengths，我们可以添加：  
+
+    lineLengths.persist(StorageLevel.MEMORY_ONLY()); 
+在reduce之前，这可以使得lineLength在第一次计算之前就存储到内存中。
+
+
+**传递Functions给Spark**  
+Spark的API很大程度依赖于传递Functions到驱动程序来运行集群。在Java中，Functions由实现org.apache.spark.api.java.function 包中接口的类代表。有两种方法来创建这些functions：   
+
+- 在你的类中实现Function接口，或者作为一个匿名内部类或者有名字的类传递一个实例到Spark。
+- 在Java8 中使用lambda表达式来简洁地定义一个实现。
+当本教程为了简洁大部分使用lambda语法，使用相同的API就很简单。比如我们可以吧上面的代码写成：   
+
+     JavaRDD<String> lines = sc.textFile("data.txt");
+     JavaRDD<String> lineLengths = lines.map(new Function<Stirng, Integer>(){
+         public Integer call(String s){ return s.length();}
+     });
+     int totalLength = lineLength.reduce(new Function2<Integer, Integer, Integer>() {
+         public Integer call(Integer a, Integer b){return a+b;}
+    });
