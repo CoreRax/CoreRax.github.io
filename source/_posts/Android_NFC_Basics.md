@@ -65,7 +65,7 @@ Table 1 描述标签分发系统是如何将TNF和类型域与MIME类型或者UR
 在你访问设备的NFC硬件和更好得获取NFC intent 之前，把他们声明在AndroidManifest.xml文件中:  
 
 - NFC<uses-permission>元素来接入NFC硬件：  
-`<uses-permission android:name"android.permission.NFC" />`  
+`<uses-permission android:name="android.permission.NFC" />`  
 - 你的应用支持的最低SDK版本。API 9只通过ACTION_TAG_DISCOVERED支持有限的标签,并且通过EXTRA_NDEF_MESSAGES只给了访问NDEF的权限。没有其他标签支持，或者I/O操作访问权。API10包含广泛的读写支持，API 14提供更简单的方式来写入NDEF信息到其他设备。  
 `<uses-sdk android:minSdkVersion="10" />`  
 - uses-feature元素可以使得你的程序在google play中只为有NFC设备的硬件显示。  
@@ -77,7 +77,7 @@ Table 1 描述标签分发系统是如何将TNF和类型域与MIME类型或者UR
 
 因为NFC标签部署的多样化，并且许多时候并不在自己的控制之下，这就是为什么你可以反馈其他两个intent。当你完全掌握标签的类型和数据写入，推荐的方式是使用NDEF格式。  
 
-**ACTION_ NDEF_DISCOVERED**  
+**ACTION_ NDEF_ DISCOVERED**  
 为了筛选出ACTION_NDEF_DISCOVERED intent，声明intent过滤器连同你想要的数据。下面例子是为了筛选有MIME类型为text/plain 的ACTION_NDEF_DISCOVERED intent：  
 
     <intent-filter>
