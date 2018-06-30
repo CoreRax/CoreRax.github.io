@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta name=referrer content=never>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>AngularJs单页面路由 | Hexo</title>
+  <meta name="description" content="Modules对于大型应用，建议分为多个模块：  服务模块 指令模块 过滤器模块 一个应用模块依赖于上述三个模块，而且包含初始化及启动代码  模块是配置代码块和运行代码块的集合： 1.配置代码块 在provider注册和配置阶段执行。只有provider和constant可以被注入配置代码块，这是为了防止服务在完全配置好之前被意外初始化。 2.执行代码块 在injector被创建后执行，用来启动整">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AngularJs单页面路由">
+<meta property="og:url" content="http://chengchuan.me/2018/06/30/AngularJs单页面路由/index.html">
+<meta property="og:site_name" content="CoreRax">
+<meta property="og:description" content="Modules对于大型应用，建议分为多个模块：  服务模块 指令模块 过滤器模块 一个应用模块依赖于上述三个模块，而且包含初始化及启动代码  模块是配置代码块和运行代码块的集合： 1.配置代码块 在provider注册和配置阶段执行。只有provider和constant可以被注入配置代码块，这是为了防止服务在完全配置好之前被意外初始化。 2.执行代码块 在injector被创建后执行，用来启动整">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://i.imgur.com/V9f1y8u.png">
+<meta property="og:updated_time" content="2018-06-30T13:25:52.639Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AngularJs单页面路由">
+<meta name="twitter:description" content="Modules对于大型应用，建议分为多个模块：  服务模块 指令模块 过滤器模块 一个应用模块依赖于上述三个模块，而且包含初始化及启动代码  模块是配置代码块和运行代码块的集合： 1.配置代码块 在provider注册和配置阶段执行。只有provider和constant可以被注入配置代码块，这是为了防止服务在完全配置好之前被意外初始化。 2.执行代码块 在injector被创建后执行，用来启动整">
+<meta name="twitter:image" content="http://i.imgur.com/V9f1y8u.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://chengchuan.me/2018/06/30/AngularJs单页面路由/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="CoreRax" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">昵称</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+
+    
+      
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">21</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/06/30/新学的一点JS技巧/" class="title">分享一个JS技巧</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-06-30T13:26:29.330Z" itemprop="datePublished">2018-06-30</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/06/30/基于手机解锁的智能锁设计/" class="title">(no title)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-06-30T13:26:29.326Z" itemprop="datePublished">2018-06-30</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/06/30/关于邮件附件名为中文时的问题处理/" class="title">邮件附件名为中文时收到的邮件附件为tcmime.XXXX.XXXX.XXXX.bin</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-06-30T13:26:29.324Z" itemprop="datePublished">2018-06-30</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/06/30/Spark入门/" class="title">(no title)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-06-30T13:26:29.320Z" itemprop="datePublished">2018-06-30</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/06/30/QuickSort/" class="title">快速排序</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-06-30T13:26:29.316Z" itemprop="datePublished">2018-06-30</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-AngularJs单页面路由" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      AngularJs单页面路由
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/06/30/AngularJs单页面路由/" class="article-date">
+	  <time datetime="2018-06-30T13:26:29.230Z" itemprop="datePublished">2018-06-30</time>
+	</a>
+</span>
+        
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/06/30/AngularJs单页面路由/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <h2 id="Modules"><a href="#Modules" class="headerlink" title="Modules"></a>Modules</h2><p>对于大型应用，建议分为多个模块：</p>
+<ul>
+<li>服务模块</li>
+<li>指令模块</li>
+<li>过滤器模块</li>
+<li>一个应用模块依赖于上述三个模块，而且包含初始化及启动代码</li>
+</ul>
+<p>模块是配置代码块和运行代码块的集合：</p>
+<p>1.<strong>配置代码块</strong> 在provider注册和配置阶段执行。只有provider和constant可以被注入配置代码块，这是为了防止服务在完全配置好之前被意外初始化。</p>
+<p>2.<strong>执行代码块</strong> 在injector被创建后执行，用来启动整个应用。只有服务的实例对象和constant可以被注入到执行代码块，这是防止在应用执行期间系统的更进一步的配置。</p>
+<p><code>angular.module(&#39;myModule&#39;, []).config(function(injectables) { // provider型注入器
+    // 这是配置(config)代码块的范例，你可以有任意多个配置代码块
+    // 配置块中你只能注入Provider类（注意：不是由Provider类生成的实例）以及</code>constant<code>}).</code><br>  <code>run(function(injectables) { // instance型注入器
+    // 这是运行(run)代码块的范例，你可以有任意个运行代码块
+    // 运行块中你只能注入Provider实例（注意：不是Provider类）
+  });</code></p>
+<h2 id="路由机制"><a href="#路由机制" class="headerlink" title="路由机制"></a>路由机制</h2><p>首先了解单页面应用，就是singlepage app。为了实现无刷新的试图切换，我们会使用ajax请求从后台获取数据，然后套上HTML模板，渲染在页面上，但是ajax的一个致命缺点就是到时浏览器后退按钮失效。尽管我页面上防止了一个大大的返回按钮，让用户点击来导航，但是总是无法避免用户习惯点击后退。解决此问题的一个方法是使用hash，监听hashchange事件来进行视图切换。另一个方法是用HTML5的history API，通过oushState（）记录操作历史，建通popstate时间来进行视图切换。也有人把这个叫做pjax技术。<br><img src="http://i.imgur.com/V9f1y8u.png" alt=""><br>如此一来便形成了通过地址栏进行导航的深度链接，也就是我们需要的路由机制。通过路由机制，一个单应用的各个视图就可以很好的组织起来了。</p>
+<p>ngRoute的内容</p>
+<p>ng的路由机制是靠ngRoute提供的，通过hash和history两种方式实现路由，可以检测浏览器是否支持history来灵活调用相应的方式。ng的路由是一个单独的模块，包含以下内容：<br>服务$routeProvider用来定义一个路由表，也就是地址栏与视图模板的映射<br>服务$routeParams保存了地址栏中的参数，例如{id：1，name：’tom’}<br>服务$route完成路由匹配，并且提供路由相关的属性访问事件，如访问当前路由对应的controller<br>指令ngView用来在主视图中指定加载子视图的区域<br>以上的内容加上$location服务，我们就可以实现一个单页面应用了。</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h5 id="1-引入文件和依赖"><a href="#1-引入文件和依赖" class="headerlink" title="1.引入文件和依赖"></a>1.引入文件和依赖</h5><p>ngRoute模块包含在一个单独的文件中，所以需要在页面上引入这个文件，<br><code>&lt;script src=&quot;http://code.angularjs.org/1.2.5/angular.min.js&quot;&gt;&lt;/script&gt;</code><br><code>&lt;script src=&quot;http://code.angularjs.org/1.2.5/angular-route.min.js&quot;&gt;&lt;/script&gt;</code></p>
+<p>引入之后还需要在模板声明中注入对ngRoute的依赖：<br><code>var app = angular.module(&#39;MyApp&#39;, [&#39;ngRoute&#39;])</code></p>
+<p>完成了这些，我们就可以在模板或者是controller中使用上面的服务和指令了。</p>
+<h5 id="2-定义路由表"><a href="#2-定义路由表" class="headerlink" title="2.定义路由表"></a>2.定义路由表</h5><p>$routeProvider提供了定义路由表的服务，它有两个核心方法，when(path,route)和otherwise(params)。<br>　　when(path, route)方法接收两个参数，path是一个String类型，表示该条路由规则所匹配的路径，它将与地址栏的内容($location.path)的值进行匹配。如果需要匹配参数，可以在path中使用冒号加名称的方式。如：<br>path为<code>/show/:name</code>，如果地址栏中是：<code>/show/tom</code>,那么参数name所对应的值tom便会被保存在$routeParams中，像这样：{name:tom}。我们也可以使用<em>进行模糊匹配，如：`/show</em>/:name`，将匹配<br>/showInfo/tom。<br>　　route参数是一个object，用来指定当path匹配以后所需要的一系列配置项，包括以下内容：<br>controller //function 或者string类型。在当前模板上执行的controller函数，生成新的scope。<br>controllerAs //string类型，为controller指定别名<br>template //string或function类型，视图所用的模板，这部分内容将被ngView引用<br>templateUrl //string或function类型，当视图模板为单独的html或者是使用了&lt;scripttype=”text/ng-template”&gt;定义模板时使用<br>resolve //指定当前controller所依赖的其他模块<br>redirectTo //重定向的地址  </p>
+<p>最简单的情况，我们定义一个html文件为模板，并初始化一个指定的controller：  </p>
+<pre><code>function emailRouteConfig($routeProvider){
+$routeProvider.
+when(&apos;/show&apos;, {
+    controller: ShowController,
+    templateUrl: &apos;show.html&apos;
+}).
+when(&apos;/put/:name&apos;,{
+   controller: PutController,
+   templateUrl: &apos;put.html&apos;
+});
+};
+</code></pre><p>otherwise(params)方法对应路径匹配不到时的情况，这时候我们可以配置一个redirectTo参数，让它重定向到404页面或者是首页。</p>
+<h5 id="3-在主视图模板中指定加载子视图的位置"><a href="#3-在主视图模板中指定加载子视图的位置" class="headerlink" title="3.在主视图模板中指定加载子视图的位置"></a>3.在主视图模板中指定加载子视图的位置</h5><p>单页面应用是局部刷新的，ngView用在哪里哪里就是刷新：<br><code>&lt;div ng-view&gt;&lt;/div&gt;</code>  </p>
+<p>我们的子视图将会在此处被引用进来。完成这三步后我们的成的路由就配置好了。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://chengchuan.me/2018/06/30/AngularJs单页面路由/" title="AngularJs单页面路由" target="_blank" rel="external">http://chengchuan.me/2018/06/30/AngularJs单页面路由/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">昵称</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/06/30/AngularJs路由-模块-依赖注入/" title="AngularJs路由-模块-依赖注入"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/06/30/AngularJs中inprog错误/" title="AngularJs中的inprog错误"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+        <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+    
+    
+        
+
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>

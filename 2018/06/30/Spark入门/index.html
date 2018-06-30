@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta name=referrer content=never>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Hexo</title>
+  <meta name="description" content="什么是spark是一个大数据处理框架，以速度，易用性，复杂性分析为目的构建的。是Apache的开源项目之一。优势相比其他大数据框架相比优势如下   外部数据集Spark可以在任何Hadoop支持的存储源里创建分布式数据集，这些存储源包括本地文件系统，HDFS，Cassandra, HBase, Amazon S3等。Spark支持文本文件，序列文件，和其他Hadoop支持的输入格式。 文本类型弹性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CoreRax">
+<meta property="og:url" content="http://chengchuan.me/2018/06/30/Spark入门/index.html">
+<meta property="og:site_name" content="CoreRax">
+<meta property="og:description" content="什么是spark是一个大数据处理框架，以速度，易用性，复杂性分析为目的构建的。是Apache的开源项目之一。优势相比其他大数据框架相比优势如下   外部数据集Spark可以在任何Hadoop支持的存储源里创建分布式数据集，这些存储源包括本地文件系统，HDFS，Cassandra, HBase, Amazon S3等。Spark支持文本文件，序列文件，和其他Hadoop支持的输入格式。 文本类型弹性">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2018-06-30T13:25:52.643Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CoreRax">
+<meta name="twitter:description" content="什么是spark是一个大数据处理框架，以速度，易用性，复杂性分析为目的构建的。是Apache的开源项目之一。优势相比其他大数据框架相比优势如下   外部数据集Spark可以在任何Hadoop支持的存储源里创建分布式数据集，这些存储源包括本地文件系统，HDFS，Cassandra, HBase, Amazon S3等。Spark支持文本文件，序列文件，和其他Hadoop支持的输入格式。 文本类型弹性">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://chengchuan.me/2018/06/30/Spark入门/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="CoreRax" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">昵称</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+
+    
+      
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">21</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/06/30/新学的一点JS技巧/" class="title">分享一个JS技巧</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-06-30T13:26:29.330Z" itemprop="datePublished">2018-06-30</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/06/30/基于手机解锁的智能锁设计/" class="title">(no title)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-06-30T13:26:29.326Z" itemprop="datePublished">2018-06-30</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/06/30/关于邮件附件名为中文时的问题处理/" class="title">邮件附件名为中文时收到的邮件附件为tcmime.XXXX.XXXX.XXXX.bin</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-06-30T13:26:29.324Z" itemprop="datePublished">2018-06-30</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/06/30/Spark入门/" class="title">(no title)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-06-30T13:26:29.320Z" itemprop="datePublished">2018-06-30</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/06/30/QuickSort/" class="title">快速排序</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-06-30T13:26:29.316Z" itemprop="datePublished">2018-06-30</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Spark入门" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/06/30/Spark入门/" class="article-date">
+	  <time datetime="2018-06-30T13:26:29.320Z" itemprop="datePublished">2018-06-30</time>
+	</a>
+</span>
+        
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/06/30/Spark入门/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <p><strong>什么是spark</strong><br>是一个大数据处理框架，以速度，易用性，复杂性分析为目的构建的。是Apache的开源项目之一。<br><strong>优势</strong><br>相比其他大数据框架相比优势如下  </p>
+<p><strong>外部数据集</strong><br>Spark可以在任何Hadoop支持的存储源里创建分布式数据集，这些存储源包括本地文件系统，HDFS，Cassandra, HBase, Amazon S3等。Spark支持文本文件，序列文件，和其他Hadoop支持的输入格式。</p>
+<p>文本类型弹性分布式数据集可以使用SparkContext中的textFile方法创建。这个方法把一个URI当成一个文件，并且当成一个行的集合来读取。  </p>
+<pre><code>JavaRDD&lt;String&gt; distFile = sc.textFile(&quot;data.txt&quot;);  
+</code></pre><p>一旦创建分布式数据集，distFile对象就可以被用来做一些数据集操作。比如我们可以使用map和reduce来计算所有行的长度之和：</p>
+<pre><code>distFile.map(s-&gt;s.length()).reduce((a,b) -&gt;a+b)  
+</code></pre><p> Spark读取文件注意事项：  </p>
+<ul>
+<li>如果你使用的是在本地文件系统上的路径，文件必须是在工作节点上相同的路径并且可以访问的。不管是复制到所有工作节点还是使用网络共享文件系统。  </li>
+<li>Spark的所有基于文件的输入方法，包括textFile，支持运行在目录上，压缩文件上，还有通配符。比如可以使用textFile(“/my/directory”), textFile(“/my/directory/<em>.txt”), and textFile(“/my/directory/</em>.gz”)   </li>
+<li>textFile方法也有一个可选的第二参数老控制文件被分为多少部分。默认的Spark为每一块文件创建一个分区（块在HDFS中默认是64MB）,可以请求更大数目的分区，但不能少于块数。  </li>
+</ul>
+<p>除了文本文件格式，Spark的Java API也支持其他几个数据格式：   </p>
+<ul>
+<li>JavaSparkContext.wholeTextFiles允许你读取一个包含多种文本格式的目录，然后将这些文件按（文件名，内容）对的形式返回。这和textFile在每一个文件中返回每一行的一个记录相反。  </li>
+<li>对于流式文件，使用SparkContext的sequenceFile[k,v]方法。其中k和v分别是类型的键和文件的值。这些应该继承Hadoop的Writable接口，比如intWritable和Text。除此之外，Spark允许你为几个常用的Writable接口本地指定类型，比如sequenceFile[int, String]将自动的读取IntWritables 和 Texts。</li>
+<li>对于其他的Hadoop输入类型，你可以使用SparkContext.HadoopRDD方法，它可以获取任意的JobConf，输入类型类，键类和值类。你也可以使用SparkContext.newAPIHadoopRDD来支持基于新的MapReduce API的输入格式。</li>
+<li>RDD.saveAsObjectFile和SparkContext.objectFile支持将一个RDD存储为一个简单的包含序列化的Java对象的格式。虽然这对于一些特别的格式比如Avro效率不高，但是提供了一个简单的方法来存储RDD。</li>
+</ul>
+<p><strong>RDD操作</strong><br>RDD支持两种类型的操作:transformations（变换）它从已经存在的RDD创建一个新的数据集；action（活动/行动）它在数据集上做好运算之后返回一个值给驱动程序。比如，map是一个transformation，它通过一个函数传递每个数据集元素，并且返回一个新的RDD代表结果。另一方面，reduce是一个action它使用某种方法聚集所有的RDD的元素并且返回一个最后的结果给驱动程序（虽然也有一个并行的ruduceByKey它返回分布式数据集）。<br>Spark中所有的transformations是懒惰的/消极的,他们不会立即计算他们的结果。相反他们仅仅记录transformations应用到一些基本的数据集。transformations仅仅在action请求一个结果返回到驱动程序的时候才会计算。这个设计使得Spark运行更加高效，比如我们意识到一个被map创建的数据集将会被用于reduce并且仅仅返回reduce的结果给驱动程序。而不是一个更大的映射数据数据集。//不太明白<br>默认的，每一个变换过后的RDD在每一次你运行action的时候可能被重新计算。然而你可能也存留着一个RDD在内存中通过使用persist或者cache方法，在这种情况下Spark将会保留这些元素在节点中以便下一次你查询的时候更加快速的连接。这也支持在硬盘中的持久化的RDD，或者在多个节点中重复的。  </p>
+<p><strong>基础</strong><br>为了举例说明RDD的基本知识，考虑下列简单的程序：  </p>
+<pre><code>JavaRDD&lt;String&gt; lines = sc.textFile(&quot;data.txt&quot;);
+JavaRdd&lt;String&gt; lineLengths =  lines.map(s-&gt;s.length());
+int totalLength = lineLengths.reduce((a,b) -&gt; a+b);
+</code></pre><p>第一行从一个外部文件中定义了一个基本的RDD(弹性分布式数据集)。这个数据集现在还没有加载到内存，或者开始处理：lines仅仅是一个指向文件的指针。第二行定义了lineLengths作为一个map transformation的结果。同样的，lineLengths并没有被立即运算，因为它是懒惰性质的。最后运行reduce，它是一个action。这时候Spark将计算任务打散成task来在不同的机器上运行。每个机器运行它那一部分map和本地reduction，返回自己的结果到驱动程序。<br>如果之后还需要使用lineLengths，我们可以添加：  </p>
+<pre><code>lineLengths.persist(StorageLevel.MEMORY_ONLY()); 
+</code></pre><p>在reduce之前，这可以使得lineLength在第一次计算之前就存储到内存中。</p>
+<p><strong>传递Functions给Spark</strong><br>Spark的API很大程度依赖于传递Functions到驱动程序来运行集群。在Java中，Functions由实现org.apache.spark.api.java.function 包中接口的类代表。有两种方法来创建这些functions：   </p>
+<ul>
+<li>在你的类中实现Function接口，或者作为一个匿名内部类或者有名字的类传递一个实例到Spark。</li>
+<li><p>在Java8 中使用lambda表达式来简洁地定义一个实现。<br>当本教程为了简洁大部分使用lambda语法，使用相同的API就很简单。比如我们可以把上面的代码写成：</p>
+<pre><code> JavaRDD&lt;String&gt; lines = sc.textFile(&quot;data.txt&quot;);
+ JavaRDD&lt;String&gt; lineLengths = lines.map(new Function&lt;Stirng, Integer&gt;(){
+ public Integer call(String s){ return s.length();}
+ });
+ int totalLength = lineLength.reduce(new Function2&lt;Integer, Integer, Integer&gt;() {
+ public Integer call(Integer a, Integer b){return a+b;}
+});
+</code></pre></li>
+</ul>
+<p>或者，如果觉得吧function写为内联是笨拙的做法：</p>
+<pre><code>Class GetLength implements Function&lt;String, Integer&gt; {
+     public Integer call(String s) { return s.length(); }
+}
+class Sum implements Function2&lt;Integer, Integer, Integer&gt; {
+public Integer call(Integer a, Integer b) { return a + b; }
+}
+
+JavaRDD&lt;String&gt; lines = sc.textFile(&quot;data.txt&quot;);
+JavaRDD&lt;Integer&gt; lineLengths = lines.map(new GetLength());
+int totalLength = lineLengths.reduce(new Sum());
+</code></pre><p>记住匿名内部类在Java中也可以访问闭合区间的变量，只要这些变量是final的。Spark传递这些变量的拷贝给每一个节点。  </p>
+<p><strong>理解闭包</strong><br>Spark中比较困难的事是当在集群之间运行代码时理解变量和方法的作用域和生命期。RDD操作很多是在变量的作用域之外改变变量的值，这是一个造成混淆的主要原因。在下面的例子中我们将看到代码使用foreach()来增加计数器，但是相同的问题发生在其他操作中。  </p>
+<p>####### 举例 </p>
+<p>假设一个RDD元素加和，结果将表现得很不同，取决于运行的在相同的JVM上。一个普通的例子是当在local模式运行Spark和将Spark应用发布到集群上运行。  </p>
+<pre><code>int counter = 0;
+JavaRDD&lt;Integer&gt; rdd = sc.parallelize(data);
+
+//Wrong:Don&apos;t do this!
+rdd.foreach(x-&gt;counter +=x);
+println(&quot;Counter value: &quot; + counter);
+</code></pre><p>####### Local vs. cluster modes<br>上面代码的表现是无法定义的，可能无法按照预期的运行。为了运行任务，将RDD操作的进程打散成任务，每一个任务都被一个执行者执行。在执行之前，Spark计算任务的<strong>闭包</strong>。闭包是可以被执行RDD上计算任务的执行者可见的变量和方法。这个闭包是序列化的兵器可以送到每一个执行者。  </p>
+<p>在闭包中被送到每一个执行者的变量现在是拷贝，因此，当counter被foreach()引用的时候，已经不再只是驱动节点上的counter了。这里任然有一个counter在驱动节点的内存中，但是已经不再对执行者可见了。执行者只能看到序列化闭包中的拷贝。因此，counter最后的值将仍旧是0因为所有的对counter的操作只能影响到序列化闭包中。  </p>
+<p>在本地模式中，在一些情况下foreach() function会实际上执行在相同的JVM上并且会引用相同的原始counter，可能会更新它。  </p>
+<p>为了确保这些一系列行为被完好定义，应该使用一个Accumulator(累加器)。累加器在Spark中被明确地用来提供一种安全的机制来更新一个变量当执行过程被划分到一个集群中不同的工作节点时。在累加器部分会详细讨论。</p>
+<p>一般来说</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://chengchuan.me/2018/06/30/Spark入门/" title="" target="_blank" rel="external">http://chengchuan.me/2018/06/30/Spark入门/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">昵称</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/06/30/关于邮件附件名为中文时的问题处理/" title="邮件附件名为中文时收到的邮件附件为tcmime.XXXX.XXXX.XXXX.bin"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/06/30/QuickSort/" title="快速排序"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+        <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+    
+    
+        
+
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>
