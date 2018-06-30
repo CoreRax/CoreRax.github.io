@@ -5,19 +5,19 @@
   
 
   
-  <title>Hello World | Hexo</title>
+  <title>Java-多态和重载 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <meta name="description" content="多态多态是指子类重新定义父类的虚方法。子类重新定义父类的虚方法以后，父类根据赋给他的不同子类动态调用属于子类的该方法，这样的方法调用在编译期是无法确定的。 重载重载是允许存在多个同名方法，而方法的参数不同 (不同参数个数，不同类型，不同参数顺序)。 编译器根据方法不同的参数表，对同名方法的名称做修饰。对编译器而言，同名的方法会成为不同的方法。 区别两者的区别在于能否在编译期确定所要调用的具体方法。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2018/06/28/hello-world/index.html">
+<meta property="og:title" content="Java-多态和重载">
+<meta property="og:url" content="http://yoursite.com/2018/06/30/Java-多态和重载/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="多态多态是指子类重新定义父类的虚方法。子类重新定义父类的虚方法以后，父类根据赋给他的不同子类动态调用属于子类的该方法，这样的方法调用在编译期是无法确定的。 重载重载是允许存在多个同名方法，而方法的参数不同 (不同参数个数，不同类型，不同参数顺序)。 编译器根据方法不同的参数表，对同名方法的名称做修饰。对编译器而言，同名的方法会成为不同的方法。 区别两者的区别在于能否在编译期确定所要调用的具体方法。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-28T08:08:07.801Z">
+<meta property="og:updated_time" content="2018-06-30T13:25:52.641Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="Java-多态和重载">
+<meta name="twitter:description" content="多态多态是指子类重新定义父类的虚方法。子类重新定义父类的虚方法以后，父类根据赋给他的不同子类动态调用属于子类的该方法，这样的方法调用在编译期是无法确定的。 重载重载是允许存在多个同名方法，而方法的参数不同 (不同参数个数，不同类型，不同参数顺序)。 编译器根据方法不同的参数表，对同名方法的名称做修饰。对编译器而言，同名的方法会成为不同的方法。 区别两者的区别在于能否在编译期确定所要调用的具体方法。">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -64,10 +64,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Java-多态和重载" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/06/28/hello-world/" class="article-date">
-  <time datetime="2018-06-28T08:08:07.801Z" itemprop="datePublished">2018-06-28</time>
+    <a href="/2018/06/30/Java-多态和重载/" class="article-date">
+  <time datetime="2018-06-30T13:26:29.296Z" itemprop="datePublished">2018-06-30</time>
 </a>
     
   </div>
@@ -78,7 +78,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      Java-多态和重载
     </h1>
   
 
@@ -86,20 +86,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h3><p>多态是指子类重新定义父类的虚方法。子类重新定义父类的虚方法以后，父类根据赋给他的不同子类动态调用属于子类的该方法，这样的方法调用在编译期是无法确定的。</p>
+<h3 id="重载"><a href="#重载" class="headerlink" title="重载"></a>重载</h3><p>重载是允许存在多个同名方法，而方法的参数不同 (不同参数个数，不同类型，不同参数顺序)。 编译器根据方法不同的参数表，对同名方法的名称做修饰。对编译器而言，同名的方法会成为不同的方法。</p>
+<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><p>两者的区别在于能否在编译期确定所要调用的具体方法。所以重载叫做“早绑定”和“静态绑定”，多态又叫“晚绑定”和“动态绑定”。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/28/hello-world/" data-id="cjj1fz1k9000js0hel496qxu0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/30/Java-多态和重载/" data-id="cjj1fz1ji000bs0he6op5cw03" class="article-share-link">Share</a>
       
       
     </footer>
@@ -108,7 +102,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/06/30/Android开发-intent-filter/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/06/30/Java反射机制/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -117,6 +111,11 @@
       </div>
     </a>
   
+  
+    <a href="/2018/06/30/Java-堆栈/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java-堆栈</div>
+    </a>
   
 </nav>
 

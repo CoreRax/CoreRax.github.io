@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="考虑如下问题：如果一个intent请求在一片数据上执行一个动作，Android如何知道哪一个应用程序或者组件能来响应这个请求？    intent-filter就是用来注册Activity，service和Broadcast Receiver具有能在某一数据上执行某种操作的能力。使用intent Filter,应用程序组件告诉Android，它们能为其他程序组件的动作请求提供服务，包括同一程序的组">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2018/06/30/Android开发-intent-filter/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="考虑如下问题：如果一个intent请求在一片数据上执行一个动作，Android如何知道哪一个应用程序或者组件能来响应这个请求？    intent-filter就是用来注册Activity，service和Broadcast Receiver具有能在某一数据上执行某种操作的能力。使用intent Filter,应用程序组件告诉Android，它们能为其他程序组件的动作请求提供服务，包括同一程序的组">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-06-30T13:25:52.637Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="考虑如下问题：如果一个intent请求在一片数据上执行一个动作，Android如何知道哪一个应用程序或者组件能来响应这个请求？    intent-filter就是用来注册Activity，service和Broadcast Receiver具有能在某一数据上执行某种操作的能力。使用intent Filter,应用程序组件告诉Android，它们能为其他程序组件的动作请求提供服务，包括同一程序的组">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Android开发-intent-filter" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/30/Android开发-intent-filter/" class="article-date">
+  <time datetime="2018-06-30T13:26:29.116Z" itemprop="datePublished">2018-06-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>考虑如下问题：<br>如果一个intent请求在一片数据上执行一个动作，Android如何知道哪一个应用程序或者组件能来响应这个请求？   </p>
+<p>intent-filter就是用来注册Activity，service和Broadcast Receiver具有能在某一数据上执行某种操作的能力。使用intent Filter,应用程序组件告诉Android，它们能为其他程序组件的动作请求提供服务，包括同一程序的组件，本地的或者第三方的应用程序。  </p>
+<p>为了注册一个应用程序组件为intent处理者，在组件的manifest节点添加一个intent-filter标签。  </p>
+<p>在intent Filter节点里使用下面的标签（关联属性），你能指定组件支持的动作(action),种类(category),数据(data):<br>1.动作测试：  </p>
+<p><intent-filter>中可以包括子元素<action>。至少包括一个<action>元素。<br>2.类别测试：  </action></action></intent-filter></p>
+<p><intent-filter>元素可以包含<category>子元素。只有当Intent请求中所有的Category与组件中某一个IntentFilter的<category>完全匹配时，才会让该 Intent请求通过测试<br>，IntentFilter中多余的<category>声明并不会导致匹配失败。一个没有指定任何类别测试的 IntentFilter仅仅只会匹配没<br>有设置类别的Intent请求。<br>3.数据测试：<br><data>元素指定了希望接受的Intent请求的数据URI和数据类型，URI被分成三部分来进行匹配：scheme、 authority和path<br>。其中，用setData()设定的Inteat请求的URI数据类型和scheme必须与IntentFilter中所指定的一致。若IntentFilter中还指定了authority或path，它们也需要相匹配才会通过测试。</data></category></category></category></intent-filter></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/30/Android开发-intent-filter/" data-id="cjj1fz1iz0002s0hed76hfrhu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/06/30/Android开发-meta-data/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/06/28/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/06/30/新学的一点JS技巧/">分享一个JS技巧</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/30/基于手机解锁的智能锁设计/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/30/关于邮件附件名为中文时的问题处理/">邮件附件名为中文时收到的邮件附件为tcmime.XXXX.XXXX.XXXX.bin</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/30/Spark入门/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/30/QuickSort/">快速排序</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

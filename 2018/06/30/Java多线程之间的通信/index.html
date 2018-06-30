@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Java多线程之间的通信 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="很多时候要让多个线程按照一定次序来访问共享资源需要考虑同步问，我们使用synchronized关键字，但是仅仅是synchronized关键字是不够的，虽然synchronized关键字可以阻止并发更新同一个共享资源，实现同步，但是却不能用来实现线程间的通信。   Java提供了三个非常重要的方法：wait(),notify(),notifyall()。他们都继承于Object对象。 wait()">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java多线程之间的通信">
+<meta property="og:url" content="http://yoursite.com/2018/06/30/Java多线程之间的通信/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="很多时候要让多个线程按照一定次序来访问共享资源需要考虑同步问，我们使用synchronized关键字，但是仅仅是synchronized关键字是不够的，虽然synchronized关键字可以阻止并发更新同一个共享资源，实现同步，但是却不能用来实现线程间的通信。   Java提供了三个非常重要的方法：wait(),notify(),notifyall()。他们都继承于Object对象。 wait()">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-06-30T13:25:52.642Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java多线程之间的通信">
+<meta name="twitter:description" content="很多时候要让多个线程按照一定次序来访问共享资源需要考虑同步问，我们使用synchronized关键字，但是仅仅是synchronized关键字是不够的，虽然synchronized关键字可以阻止并发更新同一个共享资源，实现同步，但是却不能用来实现线程间的通信。   Java提供了三个非常重要的方法：wait(),notify(),notifyall()。他们都继承于Object对象。 wait()">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Java多线程之间的通信" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/30/Java多线程之间的通信/" class="article-date">
+  <time datetime="2018-06-30T13:26:29.303Z" itemprop="datePublished">2018-06-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java多线程之间的通信
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>很多时候要让多个线程按照一定次序来访问共享资源需要考虑同步问，我们使用synchronized关键字，但是仅仅是synchronized关键字是不够的，虽然synchronized关键字可以阻止并发更新同一个共享资源，实现同步，但是却不能用来实现线程间的通信。  </p>
+<p>Java提供了三个非常重要的方法：wait(),notify(),notifyall()。他们都继承于Object对象。</p>
+<h3 id="wait"><a href="#wait" class="headerlink" title="wait()"></a>wait()</h3><p>调用wait()方法可以使调用该方法的线程释放共享资源的锁，然后从线程退出，进入等待队列，直到被再次唤醒。</p>
+<h3 id="notify"><a href="#notify" class="headerlink" title="notify()"></a>notify()</h3><p>调用notify()方法可以唤醒等待队列中的第一个等待同一共享资源的的线程，使得线程退出等待队列，进入可运行状态。  </p>
+<h3 id="notify-1"><a href="#notify-1" class="headerlink" title="notify()"></a>notify()</h3><p>调用notifyall()方法可以唤醒在等待队列中等待同一共享资源的的线程从等待队列中退出，进入可运行状态。</p>
+<p><strong>通过共享对象通信</strong><br><strong>管道流</strong><br>线程通信使用管道流，管道流有3种形式：        PipedInputStream、PipedOutputStream、PipedReader和PipedWriter以及Pipe.SinkChannel和Pipe.SourceChannel，</p>
+<p>它们分别是管道流的字节流、管道字符流和新IO的管道Channel。</p>
+<p>管道流通信基本步骤：</p>
+<pre><code>A、使用new操作法来创建管道输入、输出流
+
+B、使用管道输入流、输出流的connect方法把2个输入、输出流连接起来
+
+C、将管道输入、输出流分别传入2个线程
+
+D、2个线程可以分别依赖各自的管道输入流、管道输出流进行通
+</code></pre><p>为什么线程通信的方法wait(), notify()和notifyAll()被定义在Object 类里？</p>
+<p>Java的每个对象中都有一个锁(monitor，也可以成为监视器) 并且wait()，notify()等方法用于等待对象的锁或者通知其他线程对象的监视器可用。在Java的线程中并没有可供任何对象使用的锁和同步器。这就是为什么这些方法是Object类的一部分，这样Java的每一个类都有用于线程间通信的基本方法。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/30/Java多线程之间的通信/" data-id="cjj1fz1jl000ds0he92l4b4yf" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/06/30/Java面试题总结/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java面试题总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/06/30/Java反射机制/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/06/30/新学的一点JS技巧/">分享一个JS技巧</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/30/基于手机解锁的智能锁设计/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/30/关于邮件附件名为中文时的问题处理/">邮件附件名为中文时收到的邮件附件为tcmime.XXXX.XXXX.XXXX.bin</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/30/Spark入门/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/30/QuickSort/">快速排序</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

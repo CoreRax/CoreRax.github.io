@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hibernate事物的隔离级别 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="数据库事务的定义数据库事务是指作为单个逻辑工作单元执行的一系列操作。事务处理可以确保除非事务性单元外的所有操作都成功，否则不会永久更新面向数据的资源。通过将一组相关操作组合为一个要么全部成功，要么全部失败的单元，可以简化错误恢复并使应用程序更加可靠。   一个逻辑工作单元要成为事务，必须满足ACID：A：atomic，原子性，事务必须是原子工作单元，对于其数据修改要么全部成功，要么全部失败。C:c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hibernate事物的隔离级别">
+<meta property="og:url" content="http://yoursite.com/2018/06/30/Hibernate事物隔离级别/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="数据库事务的定义数据库事务是指作为单个逻辑工作单元执行的一系列操作。事务处理可以确保除非事务性单元外的所有操作都成功，否则不会永久更新面向数据的资源。通过将一组相关操作组合为一个要么全部成功，要么全部失败的单元，可以简化错误恢复并使应用程序更加可靠。   一个逻辑工作单元要成为事务，必须满足ACID：A：atomic，原子性，事务必须是原子工作单元，对于其数据修改要么全部成功，要么全部失败。C:c">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-06-30T13:25:52.640Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hibernate事物的隔离级别">
+<meta name="twitter:description" content="数据库事务的定义数据库事务是指作为单个逻辑工作单元执行的一系列操作。事务处理可以确保除非事务性单元外的所有操作都成功，否则不会永久更新面向数据的资源。通过将一组相关操作组合为一个要么全部成功，要么全部失败的单元，可以简化错误恢复并使应用程序更加可靠。   一个逻辑工作单元要成为事务，必须满足ACID：A：atomic，原子性，事务必须是原子工作单元，对于其数据修改要么全部成功，要么全部失败。C:c">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Hibernate事物隔离级别" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/30/Hibernate事物隔离级别/" class="article-date">
+  <time datetime="2018-06-30T13:26:29.285Z" itemprop="datePublished">2018-06-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Hibernate事物的隔离级别
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="数据库事务的定义"><a href="#数据库事务的定义" class="headerlink" title="数据库事务的定义"></a>数据库事务的定义</h3><p>数据库事务是指作为单个逻辑工作单元执行的一系列操作。事务处理可以确保除非事务性单元外的所有操作都成功，否则不会永久更新面向数据的资源。通过将一组相关操作组合为一个要么全部成功，要么全部失败的单元，可以简化错误恢复并使应用程序更加可靠。  </p>
+<p>一个逻辑工作单元要成为事务，必须满足ACID：<br>A：atomic，原子性，事务必须是原子工作单元，对于其数据修改要么全部成功，要么全部失败。<br>C:consistent,一致性，事务在完成时，所有的的数据都保持一致的状态。<br>I:isolation,隔离性，由并发事务所做的修改必须与其他任何并发事务所做的修改隔离。<br>D：Duration，持久性，事物完成后对于系统的影响是永久的。</p>
+<h3 id="数据库并发事务可能带来的问题"><a href="#数据库并发事务可能带来的问题" class="headerlink" title="数据库并发事务可能带来的问题"></a>数据库并发事务可能带来的问题</h3><p><strong>丢失更新</strong><br>在没有完全隔离事务的情况下，两个事务更新同一条数据，某一事务异常终止，回滚导致第一个更新也同时丢失。<br><strong>脏读</strong><br>如果第二个事务查询到的是第一个事务还没有提交的数据，但是第一个事务最后回滚了。导致第一个事务读取的是脏数据。<br><strong>虚读</strong><br>一个事务执行两次查询，第二次查询中包含了第一次查询中没有的行或者已经删除的行，造成两次结果不一致。这是另一个事务在这两次查询中间插入或者删除造成的。<br><strong>不可重复读</strong><br>一个事物两次读取同一行数据，结果得到不同状态结果，如中间正好另一个事务更新了该数据，两次结果相异，不可信任。<br><strong>第二类丢失更新</strong><br>是不可重复读的特殊情况，如果两个事务都读取同一行，然后两个都进行写操作，并且提交，第一个事务的改变就消失。  </p>
+<h3 id="数据库的事务隔离级别"><a href="#数据库的事务隔离级别" class="headerlink" title="数据库的事务隔离级别"></a>数据库的事务隔离级别</h3><p>为了解决数据库事务并发运行时的各种问题，数据库系统提供了四种事务隔离级别：<br>1.Serializable 串行化<br>2.Repeatable 可重复读<br>3.Read Commited 可读已提交<br>4.read Uncommited 可读未提交  </p>
+<h3 id="使用Hibernate设置数据库隔离级别"><a href="#使用Hibernate设置数据库隔离级别" class="headerlink" title="使用Hibernate设置数据库隔离级别"></a>使用Hibernate设置数据库隔离级别</h3><p>在Hibernate的配置文件中可以显示的配置数据库事务隔离级别。每一个隔离级别用一个整数表示：</p>
+<p>8 - Serializable 串行化<br>4 - Repeatable Read 可重复读<br>2 - Read Commited 可读已提交<br>1 - Read Uncommited 可读未提交</p>
+<p>在hibernate.cfg.xml中使用hibernate.connection.isolation参数配置数据库事务隔离级别。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/30/Hibernate事物隔离级别/" data-id="cjj1fz1je0008s0he3esvgnls" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/06/30/Java-StringBuffer/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java-StringBuffer
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/06/30/Gem安装bundler失败/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Gem安装bundler失败的解决方案</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/06/30/新学的一点JS技巧/">分享一个JS技巧</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/30/基于手机解锁的智能锁设计/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/30/关于邮件附件名为中文时的问题处理/">邮件附件名为中文时收到的邮件附件为tcmime.XXXX.XXXX.XXXX.bin</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/30/Spark入门/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/30/QuickSort/">快速排序</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
